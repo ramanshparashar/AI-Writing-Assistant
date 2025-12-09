@@ -1,9 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const analyzeRouter = require("./routes/analyze");
-const grammarCheck = require("./routes/grammarChecker");
-const spellChecker = require("./routes/spellChecker");
+const analyzeRouter = require("./api/analyze");
+const grammarCheck = require("./api/grammarChecker");
+const spellChecker = require("./api/spellChecker");
 const app = express();
 
 
