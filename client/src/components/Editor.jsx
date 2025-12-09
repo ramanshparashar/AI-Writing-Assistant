@@ -3,6 +3,7 @@ import axios from "axios";
 import { FaSpellCheck, FaSyncAlt, FaCheck, FaPencilAlt } from "react-icons/fa";
 import { SiGrammarly } from "react-icons/si";
 import { usePrivy } from "@privy-io/react-auth";
+
 const Editor = () => {
   const { getAccessToken } = usePrivy();
   const [text, setText] = useState("");
@@ -11,6 +12,9 @@ const Editor = () => {
   const [correctedSentences, setCorrectedSentences] = useState([]);
   const [spellCheckedText, setSpellCheckedText] = useState("");
   const [grammarCheckedText, setGrammarCheckedText] = useState("");
+
+  // <-- Use Vite env for API base
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
 
   const handleTextChange = (e) => setText(e.target.value);
 
@@ -21,14 +25,16 @@ const Editor = () => {
 
   const rephraseSentence = async () => {
     try {
+      const token = await getAccessToken();
       const response = await axios.post(
-        "http://localhost:3000/api/analyze",
+        `${API_BASE}/api/analyze`,
         {
           sentence: selectedSentence,
         },
         {
           headers: {
-            Authorization: `Bearer ${await getAccessToken()}`,
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -44,12 +50,14 @@ const Editor = () => {
 
   const checkSpelling = async () => {
     try {
+      const token = await getAccessToken();
       const response = await axios.post(
-        "http://localhost:3000/api/spellChecker",
+        `${API_BASE}/api/spellChecker`,
         { text },
         {
           headers: {
-            Authorization: `Bearer ${await getAccessToken()}`,
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -61,9 +69,16 @@ const Editor = () => {
 
   const checkGrammar = async () => {
     try {
+      const token = await getAccessToken();
       const response = await axios.post(
-        "http://localhost:3000/api/grammarChecker",
-        { text }
+        `${API_BASE}/api/grammarChecker`,
+        { text },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       setGrammarCheckedText(response.data.correctedText);
     } catch (error) {

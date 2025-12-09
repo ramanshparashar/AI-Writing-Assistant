@@ -11,8 +11,8 @@ const Home = () => (
         <div className="container mx-auto flex flex-col items-center lg:flex-row justify-between gap-10 py-16 px-4">
           <div className="flex-1 mb-8 lg:mb-0">
             <h1 className="text-4xl md:text-5xl font-extrabold mb-5 ml-5 text-gray-900 leading-tight">
-              AI you can trust<br />
-              making your words and reputation stand out
+              AI can help you<br />
+              make your words and reputation stand out
               {/* <span className="block mt-4  text-blue-600 font-bold text-2xl md:text-3xl">
                 With AI
               </span> */}
