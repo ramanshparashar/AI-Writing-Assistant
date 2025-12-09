@@ -1,9 +1,13 @@
-// server/api/grammarChecker.js
 const axios = require("axios");
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  if (!process.env.GEMINI_API_KEY) {
+    console.error("MISSING GEMINI_API_KEY in runtime!");
+    return res.status(500).json({ error: "MISSING_GEMINI_API_KEY" });
   }
 
   const { text } = req.body || {};
@@ -36,9 +40,9 @@ module.exports = async (req, res) => {
     console.log("Gemini raw response (grammar):", JSON.stringify(response.data, null, 2));
 
     const correctedText =
-      response.data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim()
-      ?? response.data?.response?.text?.trim()
-      ?? "";
+      response.data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ??
+      response.data?.response?.text?.trim() ??
+      "";
 
     return res.json({ correctedText });
   } catch (error) {
