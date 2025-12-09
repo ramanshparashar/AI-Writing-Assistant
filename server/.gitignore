@@ -1,3 +1,15 @@
+# Ignore environment files
 .env
 .env.local
 .env.*.local
+
+# Node modules
+node_modules/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vercel build output (optional)
+.vercel/
