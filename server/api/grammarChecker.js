@@ -1,6 +1,23 @@
 const axios = require("axios");
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || "*";
+
+function setCorsHeaders(res) {
+  res.setHeader("Access-Control-Allow-Origin", ALLOWED_ORIGIN);
+  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,POST,OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, X-Requested-With"
+  );
+}
 
 module.exports = async (req, res) => {
+  if (req.method === "OPTIONS") {
+    setCorsHeaders(res);
+    return res.status(204).end();
+  }
+
+  setCorsHeaders(res);
+
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
